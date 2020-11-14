@@ -27,6 +27,7 @@ def main(url):
     html = get_html(url)
     return get_data(html)
 
+print("Hui")
 
 url = 'https://kadroom.com'
 
