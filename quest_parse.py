@@ -15,19 +15,22 @@ def get_data(html):
         metro = item.find('div', class_="room-footer").find('span')
         address = item.find('div', class_="room-footer").text.split(metro.text if metro else ' ')
         address = address[1].replace("\n", "").replace(" ", "") if len(address) > 1 else "N/A"
+        
+        
         r.append({
             'room_name' : item.find('div', class_ = 'room-name').find('div').text,
             'link' : item.get('href'),
-            'address' : f"{metro.text if metro else 'N/A'}, {address}"
+            'address' : f"{metro.text if metro else 'N/A'}, {address.replace('б-р', 'б-р ')}",
         })
     return r
     
 
 def main(url):
     html = get_html(url)
-    return get_data(html)
-
+    for i in get_data(html):
+        yield i
+    
 
 url = 'https://kadroom.com'
-
-print(main(url))
+for i in (main(url)):
+    print(i)
